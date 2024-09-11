@@ -14,7 +14,6 @@ export default new Router({
     {
         
         path: '/products',
-        name: 'products',
         component: () => import('@/views/ProductsWrapper.vue'),
         children:[
             {
