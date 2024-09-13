@@ -55,7 +55,7 @@ export default Vue.extend({
         }
     },
     async mounted(){
-  
+        this.productsStore.emptyProducts()
         await this.fetchData()
     
         this.productsStore.fetchAllCategories()
