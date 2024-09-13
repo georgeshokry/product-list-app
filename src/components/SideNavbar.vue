@@ -3,7 +3,7 @@
         <div class="d-flex p-2">
           <b-nav
             vertical
-            class=" bg-light vh-100 sidebar position-sticky"
+            class=" bg-light vh-100 side-nav-bar__sidebar position-sticky"
           >
           <!-- sorting -->
           <b-row class="p-0 mt-2">
@@ -16,7 +16,7 @@
           <b-row class="p-0 mt-4">
               <h5 class="d-inline-flex"><b-icon icon="filter"></b-icon> Filters</h5>
             </b-row>
-            <b-row class="categories p-0 mt-2">
+            <b-row class="side-nav-bar__categories p-0 mt-2">
                 <b-form-group label="Category">
                     <b-form-radio-group
                     id="category"
@@ -37,7 +37,7 @@
         </div>
   </template>
   
-  <script lang="ts">
+<script lang="ts">
   import Vue from 'vue';
   import { mapState } from 'pinia';
   import ProductStore from '@/store/ProductStore';
@@ -98,24 +98,21 @@
         }
     },
   });
-  </script>
+</script>
   
-  <style scoped lang="scss">
-  .sidebar {
-    width: 250px;
-    top: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-  
-  .b-container {
-    min-height: 100vh;
-  }
-
-  .categories{
-    max-height: 300px;
-    overflow-y: auto;
-    max-width: 220px;
-  }
-  </style>
+<style scoped lang="scss">
+.side-nav-bar{
+    &__sidebar {
+        width: 250px;
+        top: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    &__categories{
+        max-height: 300px;
+        overflow-y: auto;
+        max-width: 220px;
+    }
+}
+</style>
   

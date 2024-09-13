@@ -13,7 +13,8 @@ export default defineStore('ProductStore', {
       totalPages: 1
     } as Pagination,
     loading: false,
-    categories: []
+    categories: [],
+    singleProduct: null as Product | null
 
   }),
   getters: {
@@ -31,6 +32,9 @@ export default defineStore('ProductStore', {
     },
     getAllCategories(state): Array<string>{
       return state.categories
+    },
+    getSingleProduct(state): Product | null{
+      return state.singleProduct
     }
   },
   actions: {
@@ -47,6 +51,7 @@ export default defineStore('ProductStore', {
         .catch( (error) => {
           // handle error
           console.log(error);
+          throw new Error(error.message)
         })
         .finally( () => {
           // always executed
@@ -68,6 +73,7 @@ export default defineStore('ProductStore', {
         .catch( (error) => {
           // handle error
           console.log(error);
+          throw new Error(error.message)
         })
         .finally( () => {
           // always executed
@@ -78,6 +84,25 @@ export default defineStore('ProductStore', {
     },
     emptyProducts(){
       this.$state.products = []
+    },
+    async getProductById(productId: number){
+      this.$state.singleProduct = null
+      this.$state.loading = true
+      await axios.get(
+        `${mainApi}products/${productId}`
+      ).then( (response) => {
+        console.log("🚀 ~ ).then ~ response:", response)
+        this.$state.singleProduct = response.data
+        })
+        .catch( (error) => {
+          // handle error
+          console.log(error);
+          throw new Error(error.message)
+        })
+        .finally( () => {
+          // always executed
+          this.$state.loading = false
+        });
     }
   },
 });

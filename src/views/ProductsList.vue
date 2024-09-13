@@ -9,7 +9,7 @@
         </b-overlay>
         <b-row class="d-flex justify-content-center px-4 mb-3">
             <b-col cols="auto" class="d-flex justify-content-center">
-                <b-button variant="outline-primary"  class="mx-2" @click="loadMoreProducts" v-show="!(currentPage >= getTotalPages)">
+                <b-button variant="outline-primary"  class="mx-2" @click="loadMoreProducts" :disabled="currentPage >= getTotalPages">
                     Load More
                 </b-button>
             </b-col>
@@ -65,7 +65,10 @@ export default Vue.extend({
             if (this.currentPage <= this.getTotalPages) {
                 this.currentPage += 1;
                 this.calculatePages()
-                this.productsStore.fetchAllProducts(this.skip, this.$router.currentRoute.query.sortBy.toString())
+                this.productsStore.fetchAllProducts(this.skip,
+                this.$router.currentRoute.query?.sortBy ? this.$router.currentRoute.query.sortBy.toString() : null , 
+                this.$router.currentRoute.query?.category ? this.$router.currentRoute.query.category.toString() : null
+                )
             }
         },
         calculatePages(){

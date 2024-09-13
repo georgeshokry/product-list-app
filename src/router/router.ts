@@ -25,9 +25,25 @@ export default new Router({
                 path: ':productId(\\d+)',
                 name: 'details',
                 component: () => import('@/views/ProductDetails.vue'),
-            }
+            },
         ]
       },
+      {
+        path: '/404',
+        name: 'not-found',
+        component: () => import('@/views/NotFound.vue'),
+        beforeEnter(to, from, next){
+            // to prevent open this page by user
+            if(to.name === 'not-found' && !from.name){
+                next('/')
+            }else{
+                next()
+            }
+        }
+    }
 
   ],
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  }
 });
