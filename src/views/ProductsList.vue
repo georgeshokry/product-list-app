@@ -8,8 +8,8 @@
             </b-row>
         </b-overlay>
         <b-row class="d-flex justify-content-center px-4 mb-3">
-            <b-col cols="auto" class="d-flex justify-content-center">
-                <b-button variant="outline-primary"  class="mx-2" @click="loadMoreProducts" :disabled="currentPage >= getTotalPages">
+            <b-col cols="auto" class="d-flex justify-content-center" >
+                <b-button v-if="!getLoader" variant="outline-primary"  class="mx-2" @click="loadMoreProducts" :disabled="currentPage >= getTotalPages">
                     Load More
                 </b-button>
             </b-col>

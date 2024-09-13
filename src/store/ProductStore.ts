@@ -41,10 +41,9 @@ export default defineStore('ProductStore', {
     async fetchAllProducts(skip: number, sorting?: string | null, categoryName?: string | null){
       console.log("🚀 ~ fetchAllProducts ~ sorting:", sorting, categoryName)
       this.$state.loading = true
-      const sortingQuery = (sorting ? `${'&sortBy='+sorting}` : '');
-      const categoryQuery = categoryName ?  ('/category/' + categoryName) : ''
+
       await axios.get(
-        `${mainApi}products${categoryQuery}?limit=10&skip=${skip}`+ sortingQuery
+        this.prepareProductParameters(skip,sorting,categoryName)
       ).then( (response) => {
           this.assignProductsData(response)
         })
@@ -57,6 +56,11 @@ export default defineStore('ProductStore', {
           // always executed
           this.$state.loading = false
         });
+    },
+    prepareProductParameters(skip: number, sorting?: string | null, categoryName?: string | null){
+      const sortingQuery = (sorting ? `${'&sortBy='+sorting}` : '');
+      const categoryQuery = categoryName ?  ('/category/' + categoryName) : ''
+      return `${mainApi}products${categoryQuery}?limit=10&skip=${skip}`+ sortingQuery
     },
     assignProductsData(response: AxiosResponse){
       this.$state.products.push(...response.data.products)
