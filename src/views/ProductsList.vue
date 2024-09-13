@@ -55,7 +55,6 @@ export default Vue.extend({
         }
     },
     async mounted(){
-        console.log("🚀 ~ mounted ~ this.$router.currentRoute.query.toString():", this.$router.currentRoute.query)
   
         await this.fetchData()
     
@@ -74,10 +73,10 @@ export default Vue.extend({
             this.skip = (this.currentPage - 1) * this.getPaginationData['limit'];
         },
         async fetchData(){
-            if(this.$router.currentRoute.query){
+            if(Object.keys(this.$router.currentRoute.query).length > 0){
                 await this.productsStore.fetchAllProducts(0,
-                    this.$router.currentRoute.query.sortBy ? this.$router.currentRoute.query.sortBy.toString() : null , 
-                    this.$router.currentRoute.query.category ? this.$router.currentRoute.query.category.toString() : null
+                    this.$router.currentRoute.query?.sortBy ? this.$router.currentRoute.query.sortBy.toString() : null , 
+                    this.$router.currentRoute.query?.category ? this.$router.currentRoute.query.category.toString() : null
                 )
 
             }else{

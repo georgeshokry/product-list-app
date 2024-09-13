@@ -79,7 +79,7 @@
             await this.productStore.fetchAllProducts(0,sorting)
         },
         assignSortingFromQuery(){
-            if(this.$router.currentRoute.query){
+            if(Object.keys(this.$router.currentRoute.query).length > 0 && this.$router.currentRoute.query?.sortBy){
                 this.selectedSort = this.$router.currentRoute.query.sortBy.toString()
             }
         },
@@ -87,7 +87,7 @@
             this.$router.push({ query:{...this.$router.currentRoute.query, 'category': this.selectedCategory} });
         },
         assignCategoryFromQuery(){
-            if(this.$router.currentRoute.query?.category){
+            if(Object.keys(this.$router.currentRoute.query).length > 0 && this.$router.currentRoute.query?.category){
                 this.selectedCategory = this.$router.currentRoute.query.category.toString()
             }
         },
