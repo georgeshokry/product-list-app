@@ -9,7 +9,7 @@
     variant="primary"
   >
     <!-- Discount Badge -->
-    <b-badge variant="danger" class="discount-badge">-{{product.discountPercentage}}%</b-badge>
+    <b-badge variant="danger" class="discount-badge" v-if="checkHeighDiscount(product.discountPercentage)">-{{product.discountPercentage}}%</b-badge>
     <!-- Card Text -->
     <b-card-text class="mb-0">
       {{product.description}}
@@ -61,6 +61,9 @@ export default Vue.extend({
       const finalPrice = originalPrice - discountAmount;
       
       return finalPrice.toFixed(2);  // Always returns 2 decimal places
+    },
+    checkHeighDiscount(discValue: number){
+      return discValue >= 10
     }
   }
 });

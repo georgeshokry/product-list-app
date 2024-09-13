@@ -44,3 +44,10 @@ export interface Product {
     thumbnail: string
 
 }
+
+export interface Pagination {
+    total: number,
+    skip: number,
+    limit: number,
+    totalPages: number
+}

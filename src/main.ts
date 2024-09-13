@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router/router'; // Import your router
+import router from './router/router';
 import { createPinia, PiniaVuePlugin } from 'pinia';
 import VueCompositionAPI from '@vue/composition-api';
 
