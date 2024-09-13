@@ -9,7 +9,7 @@
         </b-overlay>
         <b-row class="d-flex justify-content-center px-4 mb-3">
             <b-col cols="auto" class="d-flex justify-content-center">
-                <b-button variant="outline-primary"  class="mx-2" @click="loadMoreProducts" :disabled="currentPage >= getTotalPages">
+                <b-button variant="outline-primary"  class="mx-2" @click="loadMoreProducts" v-show="!(currentPage >= getTotalPages)">
                     Load More
                 </b-button>
             </b-col>
@@ -45,8 +45,20 @@ export default Vue.extend({
             getTotalPages: 'getTotalPages'
         }),
     },
+    watch:{
+        '$route.query':{
+            handler(newVal, oldVal){
+                if(newVal !== oldVal) this.productsStore.emptyProducts()
+
+                if(newVal)this.fetchData()
+            }
+        }
+    },
     async mounted(){
-        await this.productsStore.fetchAllProducts()
+        console.log("🚀 ~ mounted ~ this.$router.currentRoute.query.toString():", this.$router.currentRoute.query)
+  
+        await this.fetchData()
+    
         this.productsStore.fetchAllCategories()
     },
     methods:{
@@ -54,12 +66,23 @@ export default Vue.extend({
             if (this.currentPage <= this.getTotalPages) {
                 this.currentPage += 1;
                 this.calculatePages()
-                this.productsStore.fetchNextPage(this.skip)
+                this.productsStore.fetchAllProducts(this.skip, this.$router.currentRoute.query.sortBy.toString())
             }
         },
         calculatePages(){
             
             this.skip = (this.currentPage - 1) * this.getPaginationData['limit'];
+        },
+        async fetchData(){
+            if(this.$router.currentRoute.query){
+                await this.productsStore.fetchAllProducts(0,
+                    this.$router.currentRoute.query.sortBy ? this.$router.currentRoute.query.sortBy.toString() : null , 
+                    this.$router.currentRoute.query.category ? this.$router.currentRoute.query.category.toString() : null
+                )
+
+            }else{
+                await this.productsStore.fetchAllProducts(0)
+            }
         }
     }
 })

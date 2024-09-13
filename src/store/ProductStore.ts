@@ -34,26 +34,14 @@ export default defineStore('ProductStore', {
     }
   },
   actions: {
-    async fetchAllProducts(){
+    async fetchAllProducts(skip: number, sorting?: string | null, categoryName?: string | null){
+      console.log("🚀 ~ fetchAllProducts ~ sorting:", sorting, categoryName)
       this.$state.loading = true
-      this.$state.products = []
-      await axios.get(`${mainApi}products?limit=10`)
-        .then( (response) => {
-          this.assignProductsData(response)
-        })
-        .catch( (error) => {
-          // handle error
-          console.log(error);
-        })
-        .finally( () => {
-          // always executed
-          this.$state.loading = false
-        });
-    },
-    fetchNextPage(skip: number){
-      this.$state.loading = true
-      axios.get(`${mainApi}products?limit=10&skip=${skip}`)
-        .then( (response) => {
+      const sortingQuery = (sorting ? `${'&sortBy='+sorting}` : '');
+      const categoryQuery = categoryName ?  ('/category/' + categoryName) : ''
+      await axios.get(
+        `${mainApi}products${categoryQuery}?limit=10&skip=${skip}`+ sortingQuery
+      ).then( (response) => {
           this.assignProductsData(response)
         })
         .catch( (error) => {
@@ -83,12 +71,13 @@ export default defineStore('ProductStore', {
         })
         .finally( () => {
           // always executed
-          this.$state.loading = false
         });
     },
     assignCategories(response: AxiosResponse){
-      console.log("🚀 ~ assignCategories ~ response:", response)
       this.$state.categories = response.data
+    },
+    emptyProducts(){
+      this.$state.products = []
     }
   },
 });
